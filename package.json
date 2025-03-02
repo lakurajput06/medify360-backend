@@ -1,0 +1,25 @@
+{
+  "name": "ai-powered-medical-app-backend",
+  "version": "1.0.0",
+  "description": "robust and scalable backend app",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+  },
+  "keywords": [
+    "hosital",
+    "management"
+  ],
+  "author": "acehack",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.11.0"
+  }
+}
