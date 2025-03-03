@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const doctorSchema = new mongoose.Schema({
+const doctorSchema = new Schema({
   fullName: {
     type: String,
     required: true,
@@ -69,6 +69,6 @@ const doctorSchema = new mongoose.Schema({
 });
 
 // Create the Doctor model
-const Doctor = mongoose.model('Doctor', doctorSchema);
+const Doctor = model('Doctor', doctorSchema);
 
-module.exports = Doctor;
+export default Doctor;

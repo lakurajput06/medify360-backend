@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
-const HospitalManager = require("./hospitalManager.model");
+import { Schema, model } from "mongoose";
+import HospitalManager from "./hospitalManager.model";
 
-const bookingSchema = new mongoose.Schema(
+const bookingSchema = new Schema(
   {
     patientId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Patient",
       required: true,
     },
@@ -34,13 +34,13 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
     doctorId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Doctor",
       required: true, // Not mandatory for room bookings, but optional for doctor appointments
     },
     hospitalManagerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "HospitalManager",
+      type: Schema.Types.ObjectId,
+      ref: 'HospitalManager',
       required: true,
     },
     appointmentDate: {
@@ -75,6 +75,6 @@ const bookingSchema = new mongoose.Schema(
   }
 );
 
-const Booking = mongoose.model("Booking", bookingSchema);
+const Booking = model("Booking", bookingSchema);
 
-module.exports = Booking;
+export default Booking;

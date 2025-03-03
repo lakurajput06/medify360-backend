@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const patientSchema = new mongoose.Schema(
+import { Schema, model } from "mongoose";
+const patientSchema = new Schema(
   {
     fullName: {
       type: String,
@@ -37,12 +37,13 @@ const patientSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    moodLogs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Mood" }],
   },
   {
     timestamps: true,
   }
 );
 
-const Patient = mongoose.model("Patient", patientSchema);
+const Patient = model("Patient", patientSchema);
 
-module.exports = Patient;
+export default Patient;

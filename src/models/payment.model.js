@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const paymentSchema = new mongoose.Schema({
+const paymentSchema = new Schema({
   bookingId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Booking', // Reference to the booking being paid for
     required: true,
   },
@@ -49,6 +49,6 @@ const paymentSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-const Payment = mongoose.model('Payment', paymentSchema);
+const Payment = model('Payment', paymentSchema);
 
-module.exports = Payment;
+export default Payment;

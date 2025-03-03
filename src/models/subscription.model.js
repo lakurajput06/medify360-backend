@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const subscriptionSchema = new mongoose.Schema(
+const subscriptionSchema = new Schema(
   {
     hospitalManagerId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "HospitalManager", // Reference to the Hospital Manager
       required: true,
     },
@@ -55,6 +55,6 @@ subscriptionSchema.pre("save", function (next) {
   next();
 });
 
-const Subscription = mongoose.model("Subscription", subscriptionSchema);
+const Subscription = model("Subscription", subscriptionSchema);
 
-module.exports = Subscription;
+export default Subscription;

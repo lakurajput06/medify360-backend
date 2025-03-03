@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const hospitalManagerSchema = new mongoose.Schema({
+const hospitalManagerSchema = new Schema({
   fullName: {
     type: String,
     required: true,
@@ -58,7 +58,7 @@ const hospitalManagerSchema = new mongoose.Schema({
     default: 0, // Initial number of ambulances
   },
   doctors: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Doctor', // Referencing the Doctor model
   }],
   departments: [{
@@ -67,7 +67,7 @@ const hospitalManagerSchema = new mongoose.Schema({
   }],
   shiftSchedule: [{
     doctorId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Doctor', // Referencing the Doctor model
     },
     shiftTime: {
@@ -113,7 +113,7 @@ const hospitalManagerSchema = new mongoose.Schema({
     },
   },
   subscription: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Subscription', // Reference to the Subscription model
     required: true,
   },
@@ -121,6 +121,6 @@ const hospitalManagerSchema = new mongoose.Schema({
   timestamps: true, // Automatically handles createdAt and updatedAt
 });
 
-const HospitalManager = mongoose.model('HospitalManager', hospitalManagerSchema);
+const HospitalManager = model('HospitalManager', hospitalManagerSchema);
 
-module.exports = HospitalManager;
+export default HospitalManager;
