@@ -7,17 +7,23 @@ const patientSchema = new Schema(
       trim: true,
     },
     email: {
-        type : String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      unique: true,
     },
-    password: { 
-        type: String, 
-        required: true 
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+      required: true,
     },
-    phone: { 
-        type: String, 
-        required: true 
+    idProof: {
+      type: String,
+      default: null,
+    },
+    age: {
+      type: Number,
+      required: true,
+      min: 1,
     },
     otp: {
       type: String,
