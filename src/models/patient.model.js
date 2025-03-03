@@ -37,7 +37,7 @@ const patientSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    moodLogs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Mood" }],
+    moodLogs: [{ type: Schema.Types.ObjectId, ref: "Mood" }],
   },
   {
     timestamps: true,
