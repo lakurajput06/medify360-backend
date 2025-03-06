@@ -17,8 +17,12 @@ const patientSchema = new Schema(
       required: true,
     },
     idProof: {
-      type: String,
-      default: null,
+      public_id: {
+        type: String
+      },
+      secure_url: {
+        type: String
+      },
     },
     age: {
       type: Number,
