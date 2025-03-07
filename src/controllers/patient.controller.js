@@ -2,12 +2,17 @@ import Patient from "../models/patient.model.js";
 import { sendOTPEmail } from "../utils/sendOTP.utils.js";
 import jwt from "jsonwebtoken";
 import cloudinary from 'cloudinary';
-// import upload from '../middlewares/multer.js';
 import fs from 'fs/promises';
 
 
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+const cookieOptions = {
+    maxAge: 7*24*60*60*1000 , // 7 days
+    httpOnly: true,
+    secure: true
+};
 
 const register = async(req,res,next)=>{
     const { fullName, email, gender, age } = req.body;
@@ -20,9 +25,6 @@ const register = async(req,res,next)=>{
         if (existingPatient){
             return res.status(400).json({ error: "Email already registered" });
         }
-
-        // Upload ID proof to Cloudinary
-        // let idProofData = {};
 
         const otp = generateOTP();
         const otpExpiration = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
@@ -39,6 +41,7 @@ const register = async(req,res,next)=>{
             otpExpiration,
         });
 
+        // Upload ID proof to Cloudinary
         if (req.file) {
             const uploadedFile = await cloudinary.v2.uploader.upload(req.file.path, {
             folder: "patients_id_proof",
@@ -49,10 +52,6 @@ const register = async(req,res,next)=>{
 
                 fs.rm(`patient_id_proof/${req.file.filename}`);
             }
-            // idProofData = {
-            //     public_id: uploadedFile.public_id,
-            //     secure_url: uploadedFile.secure_url,
-            // };
         } else {
             return res.status(400).json({ error: "ID proof is required" });
         }
@@ -89,8 +88,9 @@ const verifyOTP = async(req,res,next)=>{
             process.env.JWT_SECRET, {
             expiresIn: "7d",
         });
+        res.cookie('token' , token, cookieOptions);
 
-        res.json({ message: "Login successful", token, patient });
+        res.json({ message: "Login successful", patient });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -117,7 +117,6 @@ const login = async (req, res) => {
     }
   };
   
-
 const logout = async(req,res,next)=>{
     res.cookie('token',null,{
         httpOnly: true,
@@ -127,8 +126,27 @@ const logout = async(req,res,next)=>{
 
     return res.status(200).json({message: "Logged out successfully"});
 }
+
 const patientProfile = async(req,res,next)=>{
-    // code to be written here
+    try {
+        const { patientId } = req.params; // Extract patient ID from request params
+        // console.log("patientId", patientId);
+        // Fetch patient details and populate moodLogs & medicalHistory
+        const patient = await Patient.findById(patientId)
+          .select("-otp -otpExpiration"); // Exclude OTP fields
+    
+        if (!patient) {
+          return res.status(404).json({ error: "Patient not found" });
+        }
+    
+        res.json({
+          success: true,
+          patient,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
 }
 
 export{register,
