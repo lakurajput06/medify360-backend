@@ -29,6 +29,7 @@ const patientSchema = new Schema(
       required: true,
       min: 1,
     },
+    medicalHistory: [{ type: Schema.Types.ObjectId, ref: "MedicalHistory" }],
     otp: {
       type: String,
       default: null,
