@@ -3,10 +3,8 @@ import { sendOTPEmail } from "../utils/sendOTP.utils.js";
 import jwt from "jsonwebtoken";
 import cloudinary from 'cloudinary';
 import fs from 'fs/promises';
+import generateOTP from "../utils/generateOTP.util.js";
 
-
-
-const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 const cookieOptions = {
     maxAge: 7*24*60*60*1000 , // 7 days
@@ -16,6 +14,7 @@ const cookieOptions = {
 
 const register = async(req,res,next)=>{
     const { fullName, email, gender, age } = req.body;
+    // console.log("req.body", req.body);
     if (!fullName || !email || !gender || !age)
     return res.status(400).json({ error: "All fields are required" });
 
@@ -56,8 +55,8 @@ const register = async(req,res,next)=>{
             return res.status(400).json({ error: "ID proof is required" });
         }
 
-        await patient.save();
         await sendOTPEmail(email, otp);
+        await patient.save();
 
         res.status(200).json({ message: "Patient registered successfully. Please verify OTP", email });
     } catch (error) {
@@ -133,7 +132,8 @@ const patientProfile = async(req,res,next)=>{
         // console.log("patientId", patientId);
         // Fetch patient details and populate moodLogs & medicalHistory
         const patient = await Patient.findById(patientId)
-          .select("-otp -otpExpiration"); // Exclude OTP fields
+            .populate("moodLogs medicalHistory bookedBed")
+            .select("-otp -otpExpiration"); // Exclude OTP fields
     
         if (!patient) {
           return res.status(404).json({ error: "Patient not found" });
