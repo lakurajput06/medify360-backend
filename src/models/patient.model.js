@@ -29,7 +29,14 @@ const patientSchema = new Schema(
       required: true,
       min: 1,
     },
-    medicalHistory: [{ type: Schema.Types.ObjectId, ref: "MedicalHistory" }],
+    medicalHistory: [{ 
+      type: Schema.Types.ObjectId, 
+      ref: "MedicalHistory" 
+    }],
+    bookedBed: { 
+      type: Schema.Types.ObjectId, 
+      ref: "Bed" 
+    },
     otp: {
       type: String,
       default: null,
@@ -42,7 +49,10 @@ const patientSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    moodLogs: [{ type: Schema.Types.ObjectId, ref: "Mood" }],
+    moodLogs: [{ 
+      type: Schema.Types.ObjectId, 
+      ref: "Mood" 
+    }],
   },
   {
     timestamps: true,
