@@ -49,6 +49,9 @@ const patientSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    token: {
+      type: String
+    },
     moodLogs: [{ 
       type: Schema.Types.ObjectId, 
       ref: "Mood" 

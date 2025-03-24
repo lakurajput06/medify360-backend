@@ -1,15 +1,25 @@
-import {Router} from 'express';
-import { login, logout, patientProfile, register, verifyOTP } from '../controllers/patient.controller.js';
+import { Router } from 'express';
+import { 
+    login, 
+    logout, 
+    patientProfile, 
+    register, 
+    verifyOTP,
+    getMyProfile  // Import the new function
+} from '../controllers/patient.controller.js';
 import upload from '../middlewares/multer.middleware.js';
 import { isLoggedIn } from '../middlewares/auth.middleware.js';
 
-const patientRouter = Router()
+const patientRouter = Router();
 
-patientRouter.post('/register',upload.single("idProof"), register);
-patientRouter.post("/verify-otp", verifyOTP);
-patientRouter.post('/login',login);
-patientRouter.get('/logout',logout);
-patientRouter.get('/patient-profile/:patientId',isLoggedIn, patientProfile);
-// userRouter.put("/update/:id",updateProfile);
+// Public routes
+patientRouter.post('/register', upload.single("idProof"), register);
+patientRouter.post('/verify-otp', verifyOTP);
+patientRouter.post('/login', login);
+patientRouter.post('/logout', logout);  
+
+// Protected routes
+patientRouter.get('/patient-profile/me', isLoggedIn, getMyProfile);  // Use getMyProfile instead of patientProfile
+patientRouter.get('/patient-profile/:patientId', isLoggedIn, patientProfile);
 
 export default patientRouter;
