@@ -13,12 +13,12 @@ const cookieOptions = {
 
 const register = async(req,res,next)=>{
     const { fullName, email, gender, age } = req.body;
-    
+    console.log(req.body)
     if (!fullName || !email || !gender || !age)
         return res.status(400).json({ error: "All fields are required" });
-
     try {
         const existingPatient = await Patient.findOne({ email });
+        
         if (existingPatient){
             return res.status(400).json({ error: "Email already registered" });
         }

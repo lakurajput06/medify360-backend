@@ -11,7 +11,7 @@ import aiRouter from './routes/aiRoutes.js';
 
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({extended: true}));
 
 // Fixed CORS configuration to allow credentials from frontend
