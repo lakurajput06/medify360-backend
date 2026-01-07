@@ -36,6 +36,9 @@ app.use("/api/ai", aiRouter);
 // app.use('/api/booking', bookingRouter);
 // app.use('/api/payments', paymentRouter);
 
+// Health check endpoint
+app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
+
 app.all("*", (req, res) => {
     res.status(404).send("404\nPage not found");
 });
